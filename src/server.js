@@ -62,18 +62,29 @@ bot.help((ctx) => ctx.reply('Доступно: /command1 — надішлю ау
 // === ВЕБХУК ===
 app.use(express.json());
 
-// Telegraf middleware на шлях вебхука
-app.use(WEBHOOK_PATH, bot.webhookCallback(WEBHOOK_PATH));
+// Normalise env values
+const BASE_URL = (PUBLIC_URL || '').trim();               // must start with https://
+const HOOK_PATH = (WEBHOOK_PATH || '/tg-webhook').trim(); // ensure exact match
 
-// 1) Встановимо вебхук при старті
+// 1) Explicit POST route (reliable)
+app.post(HOOK_PATH, (req, res) => {
+  // Optionally log to confirm hits:
+  // console.log('Webhook hit:', req.method, req.path);
+  bot.handleUpdate(req.body, res);
+});
+
+// Optional: GET for quick health check on the same path
+app.get(HOOK_PATH, (_req, res) => res.status(200).send('Webhook OK'));
+
+// 2) Set webhook at startup
 const setWebhook = async () => {
-  if (!PUBLIC_URL) {
-    console.error('PUBLIC_URL is missing in .env (потрібен для вебхука, має бути HTTPS)');
+  if (!BASE_URL || !BASE_URL.startsWith('https://')) {
+    console.error('PUBLIC_URL must include https:// and not be empty');
     process.exit(1);
   }
-  const url = `${PUBLIC_URL}${WEBHOOK_PATH}`;
+  const url = `${BASE_URL}${HOOK_PATH}`;
   await bot.telegram.setWebhook(url);
-  console.log('Webhook set to this url', url);
+  console.log('Webhook set to', url);
 };
 
 // 2) Запуск сервера
