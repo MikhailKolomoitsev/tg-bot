@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p files src)",
+      "Bash(tree -L 2 -a)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
