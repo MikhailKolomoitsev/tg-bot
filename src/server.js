@@ -73,7 +73,7 @@ const setWebhook = async () => {
   }
   const url = `${PUBLIC_URL}${WEBHOOK_PATH}`;
   await bot.telegram.setWebhook(url);
-  console.log('Webhook set to', url);
+  console.log('Webhook set to this url', url);
 };
 
 // 2) Запуск сервера
