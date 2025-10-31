@@ -20,34 +20,20 @@ const bot = new Telegraf(BOT_TOKEN);
 
 // === ЛОГІКА КОМАНД ===
 
-// /command1 -> надсилає аудіо
+// /command1 -> надсилає аудіо як голосове повідомлення
 bot.command('command1', async (ctx) => {
   console.log('command1')
   try {
     // Пріоритет: AUDIO_URL -> локальний файл
     if (AUDIO_URL) {
-      await ctx.replyWithAudio(
-        Input.fromURL(AUDIO_URL),
-        {
-          title: 'My Track',
-          performer: 'Your Name',
-          caption: 'Тримай трек 🎧'
-        }
-      );
+      await ctx.replyWithVoice(Input.fromURL(AUDIO_URL));
     } else {
-      // локальний файл (переконайся, що він існує: files/track.mp3)
+      // локальний файл (переконайся, що він існує: files/track.m4a)
       const path = './files/track.m4a';
       if (!fs.existsSync(path)) {
-        return ctx.reply('Аудіо не знайдено. Додай files/track.mp3 або налаштуй AUDIO_URL.');
+        return ctx.reply('Аудіо не знайдено. Додай files/track.m4a або налаштуй AUDIO_URL.');
       }
-      await ctx.replyWithAudio(
-        { source: fs.createReadStream(path) },
-        {
-          title: 'My Track',
-          performer: 'Your Name',
-          caption: 'Тримай трек 🎧'
-        }
-      );
+      await ctx.replyWithVoice({ source: fs.createReadStream(path) });
     }
   } catch (err) {
     console.error('send audio error:', err);
