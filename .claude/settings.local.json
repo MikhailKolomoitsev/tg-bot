@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(mkdir -p files src)",
-      "Bash(tree -L 2 -a)"
+      "Bash(tree -L 2 -a)",
+      "Bash(npm install)"
     ],
     "deny": [],
     "ask": []
