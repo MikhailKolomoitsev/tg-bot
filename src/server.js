@@ -22,6 +22,7 @@ const bot = new Telegraf(BOT_TOKEN);
 
 // /command1 -> надсилає аудіо
 bot.command('command1', async (ctx) => {
+  console.log('command1')
   try {
     // Пріоритет: AUDIO_URL -> локальний файл
     if (AUDIO_URL) {
