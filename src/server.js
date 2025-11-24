@@ -41,9 +41,20 @@ bot.command('command1', async (ctx) => {
   }
 });
 
+// /command2 -> надсилає текстове повідомлення
+bot.command('command2', async (ctx) => {
+  console.log('command2');
+  try {
+    await ctx.reply('Так класно лежати після золотого дощу...)');
+  } catch (err) {
+    console.error('send message error:', err);
+    await ctx.reply('Сталася помилка під час відправки повідомлення.');
+  }
+});
+
 // базові
-bot.start((ctx) => ctx.reply('Привіт! Команда: /command1'));
-bot.help((ctx) => ctx.reply('Доступно: /command1 — надішлю аудіо'));
+bot.start((ctx) => ctx.reply('Привіт! Команди: /command1, /command2'));
+bot.help((ctx) => ctx.reply('Доступно:\n/command1 — надішлю аудіо\n/command2 — надішлю текстове повідомлення'));
 
 // === ВЕБХУК ===
 app.use(express.json());
