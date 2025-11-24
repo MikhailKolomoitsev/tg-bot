@@ -45,7 +45,7 @@ bot.command('command1', async (ctx) => {
 bot.command('command2', async (ctx) => {
   console.log('command2');
   try {
-    await ctx.reply('Так класно лежати після золотого дощу...)');
+    await ctx.reply('Так класно після золотого дощу...)');
   } catch (err) {
     console.error('send message error:', err);
     await ctx.reply('Сталася помилка під час відправки повідомлення.');
